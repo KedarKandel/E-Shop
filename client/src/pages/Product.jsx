@@ -6,39 +6,51 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { laptops, mobiles, tablets } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
+
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobiles({flexDirection:"column", padding:"15px"})}
+  ${mobiles({ flexDirection: "column", padding: "15px" })}
 `;
 
 const ImageDiv = styled.div`
   flex: 1;
-  ${tablets({display:"flex", alignItems:"center", justifyContent:"center"})}
-  ${laptops({display:"flex", alignItems:"center", justifyContent:"center"})}
+  ${tablets({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  })}
+  ${laptops({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  })}
 `;
 
 const Image = styled.img`
   width: 70%;
   margin-left: 60px;
-  ${tablets({ marginLeft: "15px"})}
-  ${laptops({ marginLeft: "15px"})}
+  ${tablets({ marginLeft: "15px" })}
+  ${laptops({ marginLeft: "15px" })}
 `;
 
 const InfoDiv = styled.div`
   padding: 60px 0;
   flex: 1;
-  ${mobiles({padding:"30px", textAlign:"center"})}
+  ${mobiles({ padding: "30px", textAlign: "center" })}
 `;
 
 const Title = styled.h1`
   font-size: 50px;
   margin-bottom: 30px;
-  ${mobiles({ fontSize: "20px"})}
-  ${tablets({ fontSize: "25px"})}
+  ${mobiles({ fontSize: "20px" })}
+  ${tablets({ fontSize: "25px" })}
 `;
 
 const Desc = styled.p`
@@ -46,14 +58,13 @@ const Desc = styled.p`
   /* letter-spacing: 1.5px; */
   margin-bottom: 20px;
   font-weight: 300;
-  ${mobiles({ fontSize: "15px"})}
-  ${tablets({ fontSize: "15px"})}
+  ${mobiles({ fontSize: "15px" })}
+  ${tablets({ fontSize: "15px" })}
 `;
 
 const Price = styled.span`
   font-size: 40px;
   font-weight: 100;
-
 `;
 
 const FilterDiv = styled.div`
@@ -91,9 +102,12 @@ const AddCartDiv = styled.div`
   width: 50%;
   display: flex;
   justify-content: space-between;
-  ${mobiles({justifyContent:"center", flexDirection:"column", paddingLeft:"40px"})}
-  ${tablets({ display: "flex", flexDirection:"column"})}
-  
+  ${mobiles({
+    justifyContent: "center",
+    flexDirection: "column",
+    paddingLeft: "40px",
+  })}
+  ${tablets({ display: "flex", flexDirection: "column" })}
 `;
 const AmountDiv = styled.div`
   display: flex;
@@ -101,7 +115,6 @@ const AmountDiv = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: 600;
-
 `;
 const Amount = styled.span`
   display: flex;
@@ -122,31 +135,47 @@ const Button = styled.button`
   cursor: pointer;
   font-size: 20px;
   font-weight: 500;
-  transition: all .7s ease;
-  border: 1px solid teal;
+  transition: all 0.7s ease;
+  border: 3px solid teal;
 
-  ${mobiles({ padding: "10px", marginTop:"5px"})}
-  ${tablets({ padding:"10px", marginTop:"10px",})}
-&:hover{
+  ${mobiles({ padding: "10px", marginTop: "5px" })}
+  ${tablets({ padding: "10px", marginTop: "10px" })}
+&:hover {
     background-color: teal;
     color: white;
-    border: 1px solid teal;
-}
-
-
+    border: 3px solid teal;
+  }
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
+  const [product, setProduct] = useState({});
+
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch (err){
+        console.log(err)
+      }
+    };
+    getProduct();
+  }, [id]);
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImageDiv>
-          <Image src="https://i.ebayimg.com/images/g/cnQAAOSweW5VAw-a/s-l400.jpg" />
+          <Image src={product.img} />
         </ImageDiv>
         <InfoDiv>
-          <Title>Hoddie</Title>
+          <Title>{product.title}</Title>
           <Desc>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
             doloribus totam harum impedit at minima molestias culpa, cupiditate
@@ -155,23 +184,20 @@ const Product = () => {
             inventore! Sequi vitae autem ex voluptates, perspiciatis reiciendis
             officiis. Earum repellat labore sed expedita, quo minus!
           </Desc>
-          <Price> € 50</Price>
+          <Price> € {product.price}</Price>
           <FilterDiv>
             <Filter>
               <FilterTitle>Color:</FilterTitle>
-              <FilterColor color="blue" />
-              <FilterColor color="black" />
-              <FilterColor color="lightgray" />
+              {product.color?.map((c) => (
+                <FilterColor color={c} key={c} />
+              ))}
             </Filter>
-
             <Filter>
               <FilterTitle>Size:</FilterTitle>
               <Select>
-                <Option>XS</Option>
-                <Option>S</Option>
-                <Option>M</Option>
-                <Option>L</Option>
-                <Option>XL</Option>
+                {product.color?.map((c) => (
+                  <Option key={c}>{c}</Option>
+                ))}
               </Select>
             </Filter>
           </FilterDiv>

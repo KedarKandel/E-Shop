@@ -4,7 +4,6 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import AddShoppingCart from "@mui/icons-material/AddShoppingCartOutlined";
 import { Link } from "react-router-dom";
 
-
 const Info = styled.div`
   position: absolute;
   height: 100%;
@@ -16,7 +15,7 @@ const Info = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.2);
-  transition: all .6s ease;
+  transition: all 0.6s ease;
 `;
 
 const Container = styled.div`
@@ -28,8 +27,8 @@ const Container = styled.div`
   padding: 10px;
   margin: 15px;
   position: relative;
-  &:hover ${Info}{
- opacity: 1;
+  &:hover ${Info} {
+    opacity: 1;
   }
 `;
 
@@ -57,18 +56,22 @@ const Product = ({ item }) => {
     <Container>
       <Image src={item.img} />
       <Info>
-        <Link to ="/carts" style={{ textDecoration: "none" }}>
         <Icon>
-          <AddShoppingCart style={{ fontSize: "30px", color:"red" }} />
+          <Link to="/carts">
+            <AddShoppingCart style={{ fontSize: "30px", color: "red" }} />
+          </Link>
         </Icon>
-        </Link>
-        <Link to="/product/:id" style={{ textDecoration: "none" }}>
+
         <Icon>
-          <SearchOutlinedIcon style={{ fontSize: "30px", color:"red"}} />
+          <Link to={`/product/${item._id}`}>
+            <SearchOutlinedIcon style={{ fontSize: "30px", color: "red" }} />
+          </Link>
         </Icon>
-        </Link>
+
         <Icon>
-          <FavoriteBorderOutlinedIcon style={{ fontSize: "30px", color:"red" }} />
+          <FavoriteBorderOutlinedIcon
+            style={{ fontSize: "30px", color: "red" }}
+          />
         </Icon>
       </Info>
     </Container>

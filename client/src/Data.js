@@ -26,19 +26,19 @@ export const categories = [
       id: 1,
       img: "https://cdn.shopify.com/s/files/1/0162/2116/files/Casual_Street_Style_For_Men_5.jpg?v=1491243829",
       title: "SHIRT STYLE!",
-      cat: "women"
+      cat: "men"
     },
     {
       id: 2,
       img: "https://i2-prod.ok.co.uk/incoming/article21833680.ece/ALTERNATES/s1227b/0_Screen-Shot-2020-04-08-at-115508.png",
       title: "LOUNGEWEAR LOVE",
-      cat: "jeans"
+      cat: "coat"
     },
     {
       id: 3,
       img: "https://assets.teenvogue.com/photos/5c994c2dc9fe126852080576/master/w_800,h_1021,c_limit/asos.jpg",
       title: "LIGHT JACKETS",
-      cat: "man"
+      cat: "women"
     },
   ];
 
