@@ -6,6 +6,7 @@ import ProductList from "./pages/ProductList";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Success from "./pages/Success";
 
 const Container = styled.div``;
 
@@ -27,6 +28,7 @@ function App() {
             path="/register"
             element={user ? <Navigate to="/" replace /> : <Register />}
           />
+          <Route path="/success" element={<Success />} />
         </Routes>
       </Container>
     </BrowserRouter>
@@ -34,4 +36,3 @@ function App() {
 }
 
 export default App;
-

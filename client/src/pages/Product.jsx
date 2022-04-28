@@ -9,7 +9,8 @@ import { laptops, mobiles, tablets } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
-
+import { addProduct } from "../redux/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 
@@ -152,19 +153,36 @@ const Product = () => {
   const id = location.pathname.split("/")[2];
 
   const [product, setProduct] = useState({});
-
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         const res = await publicRequest.get("/products/find/" + id);
         setProduct(res.data);
-      } catch (err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     };
     getProduct();
   }, [id]);
+
+  const handleQuantity = (option) => {
+    if (option === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  //add products to cart
+
+  const handleAddToCart = () => {
+    dispatch(addProduct({ ...product, quantity, color, size }));
+  };
 
   return (
     <Container>
@@ -176,38 +194,32 @@ const Product = () => {
         </ImageDiv>
         <InfoDiv>
           <Title>{product.title}</Title>
-          <Desc>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
-            doloribus totam harum impedit at minima molestias culpa, cupiditate
-            blanditiis dolore labore aliquam, beatae quas pariatur asperiores
-            excepturi minus nesciunt soluta nostrum dicta debitis rerum
-            inventore! Sequi vitae autem ex voluptates, perspiciatis reiciendis
-            officiis. Earum repellat labore sed expedita, quo minus!
-          </Desc>
+          <Desc>{product.desc}</Desc>
           <Price> € {product.price}</Price>
           <FilterDiv>
             <Filter>
               <FilterTitle>Color:</FilterTitle>
               {product.color?.map((c) => (
-                <FilterColor color={c} key={c} />
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Size:</FilterTitle>
-              <Select>
-                {product.color?.map((c) => (
-                  <Option key={c}>{c}</Option>
+              <Select defaultValue="Size" onChange={(e) => setSize(e.target.value)}>
+                <Option value="Size" disabled></Option>
+                {product.size?.map((s) => (
+                  <Option key={s}>{s}</Option>
                 ))}
               </Select>
             </Filter>
           </FilterDiv>
           <AddCartDiv>
             <AmountDiv>
-              <RemoveIcon />
-              <Amount>1</Amount>
-              <AddIcon />
+              <RemoveIcon onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <AddIcon onClick={() => handleQuantity("inc")} />
             </AmountDiv>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleAddToCart}>ADD TO CART</Button>
           </AddCartDiv>
         </InfoDiv>
       </Wrapper>

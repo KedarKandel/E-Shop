@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDown from "@mui/icons-material/ArrowDropDown";
 import Cart from "@mui/icons-material/AddShoppingCartOutlined";
 import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
 
 import { mobiles, tablets } from "../responsive";
 import { Link } from "react-router-dom";
@@ -50,7 +51,10 @@ const Center = styled.div`
 `;
 
 const Logo = styled.h1`
+  color: #05595B;
   font-weight: bold;
+  font-size: 40px;
+  cursor: pointer;
   ${mobiles({ fontSize: "20px", marginLeft: "5px" })}
 `;
 
@@ -69,6 +73,8 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const quantity = useSelector((state) => state.cart.quantity);
+
   return (
     <Container>
       <Wrapper>
@@ -81,7 +87,9 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>Kk & Shop.</Logo>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Logo>Kk & Shop.</Logo>
+          </Link>
         </Center>
         <Right>
           <Link to="/login" style={{ textDecoration: "none" }}>
@@ -92,7 +100,7 @@ const Navbar = () => {
           </Link>
           <Link to="/carts" style={{ textDecoration: "none" }}>
             <MenuItem>
-              <Badge badgeContent={2} color="primary">
+              <Badge badgeContent={quantity} color="primary">
                 <Cart style={{ fontSize: 30 }} />
               </Badge>
             </MenuItem>

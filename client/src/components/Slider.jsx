@@ -20,7 +20,7 @@ const Container = styled.div`
 const Arrow = styled.div`
   width: 45px;
   height: 45px;
-  background-color: #746f7c;
+  background-color: #05595B;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{i.title}</Title>
               <Desc>{i.desc}</Desc>
-              <Link to="/products/:id" style={{ textDecoration: "none" }}>
+              <Link to="/" >
                 <Button>SHOW NOW</Button>
               </Link>
             </InfoContainer>

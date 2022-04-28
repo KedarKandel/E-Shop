@@ -4,6 +4,14 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { useSelector } from "react-redux";
+import StripeCheckout from "react-stripe-checkout";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { userRequest } from "../requestMethods";
+
+const KEY =
+  "pk_test_51KsQrJFHfUoI2gtlNH3skfJNdpwOKzWeXBcaBQIwhralOW78abZpakYHIoumHaH0McfoVbYkDcRcqPYuPqreoJSL007FELOHsT";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -26,7 +34,7 @@ const TopButton = styled.button`
   border-radius: 3px;
   font-size: 20px;
   margin-top: 15px;
-  cursor: pointer;
+
 `;
 const CenterText = styled.span`
   text-decoration: underline;
@@ -124,11 +132,11 @@ const SummaryItem = styled.div`
 `;
 
 const SummaryItemText = styled.span`
-font-size: 18px;
+  font-size: 18px;
 `;
 
 const SummaryItemPrice = styled.span`
- font-size: 18px;
+  font-size: 18px;
 `;
 
 const Button = styled.button`
@@ -141,6 +149,31 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const bag = useSelector((state) => state.cart.quantity);
+  const [stripeToken, setStripeToken] = useState(null);
+  const navigate = useNavigate();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total * 100,
+        });
+        navigate("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart, navigate]);
+
   return (
     <Container>
       <Navbar />
@@ -148,87 +181,77 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR CART</Title>
         <Top>
-          <TopButton type="shop" color="teal">
-            CONTINUE SHOPPING
-          </TopButton>
-          <CenterText>Shopping Bag(5)</CenterText>
+          <Link to="/">
+            <TopButton type="shop" color="teal">
+              CONTINUE SHOPPING
+            </TopButton>
+          </Link>
+          <CenterText>Shopping Bag({bag})</CenterText>
           <TopButton type="checkout" color="black">
             CHECKOUT NOW
           </TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://n.nordstrommedia.com/id/sr3/55811a81-06ea-4941-9c08-61b175c9984e.jpeg?h=365&w=240&dpr=2" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> PUMA JEANS
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 2575682
-                  </ProductId>
-                  <ProductColor color="blue" />
-                  <ProductSize>
-                    <b>Size:</b> 30.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <AddIcon />
-                  <ProductAmount>2</ProductAmount>
-                  <RemoveIcon />
-                </ProductAmountContainer>
-                <ProductPrice>€ 80</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((p) => (
+              <Product key={p._id}>
+                <ProductDetail>
+                  <Image src={p.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {p.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {p._id}
+                    </ProductId>
+                    <ProductColor color={p.color} />
+                    <ProductSize>
+                      <b>Size:</b> {p.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <AddIcon />
+                    <ProductAmount>{p.quantity}</ProductAmount>
+                    <RemoveIcon />
+                  </ProductAmountContainer>
+                  <ProductPrice>€ {p.price * p.quantity}</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://m.media-amazon.com/images/I/81-SLkiVM0S._UL1500_.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> COTTON BAG
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 6572458
-                  </ProductId>
-                  <ProductColor color="wheat" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <AddIcon />
-                  <ProductAmount>1</ProductAmount>
-                  <RemoveIcon />
-                </ProductAmountContainer>
-                <ProductPrice>€ 50</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>€ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemText>Estimated Shipping </SummaryItemText>
+              <SummaryItemPrice> €5.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemText>Shipping Discount </SummaryItemText>
+              <SummaryItemPrice>€-5.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>€ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <StripeCheckout
+              name="Kk & Shop"
+              image="https://thumbs.dreamstime.com/b/letter-kk-logotype-design-company-name-colored-blue-swoosh-vector-logo-business-identity-203869123.jpg"
+              billingAddress
+              shippingAddress
+              description={`Your total is € ${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>
