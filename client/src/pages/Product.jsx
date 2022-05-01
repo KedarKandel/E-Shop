@@ -205,7 +205,10 @@ const Product = () => {
             </Filter>
             <Filter>
               <FilterTitle>Size:</FilterTitle>
-              <Select defaultValue="Size" onChange={(e) => setSize(e.target.value)}>
+              <Select
+                defaultValue="Size"
+                onChange={(e) => setSize(e.target.value)}
+              >
                 <Option value="Size" disabled></Option>
                 {product.size?.map((s) => (
                   <Option key={s}>{s}</Option>

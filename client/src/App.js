@@ -11,7 +11,7 @@ import Success from "./pages/Success";
 const Container = styled.div``;
 
 function App() {
-  const user = true;
+  const user = false;
   return (
     <BrowserRouter>
       <Container>

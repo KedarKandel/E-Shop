@@ -18,3 +18,8 @@ const cartSlice = createSlice({
 
 export const { addProduct } = cartSlice.actions;
 export default cartSlice.reducer;
+
+
+//already exists 
+//compare id and increase quantity
+//if id exists, increase quantity of existing product..
