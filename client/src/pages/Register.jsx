@@ -42,6 +42,7 @@ const Policy = styled.p`
 `;
 const Button = styled.button`
   margin-left: 10px;
+  margin-bottom: 3px;
   padding: 15px 25px;
   background-color: teal;
   color: white;
@@ -102,7 +103,7 @@ const Register = () => {
         </Form>
         {success && <Span prop="success">Successfull. You can login now!</Span>}
         {failure && <Span prop="failure"> Something went wrong!</Span>}
-        <Link to ="/" style={{marginLeft:"8px", paddingTop:"5px"}}>Home</Link>
+        <Link to ="/" style={{marginLeft:"10px"}}>Home</Link>
       </Wrapper>
     </Container>
   );

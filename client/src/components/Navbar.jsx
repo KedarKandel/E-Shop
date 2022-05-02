@@ -76,7 +76,6 @@ const MenuItem = styled.div`
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
   const user = useSelector((state) => state.user.currentUser);
-  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleLogout = (e) => {
@@ -101,9 +100,9 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          {!user  && <Link to="/login" style={{ textDecoration: "none" }}>
             <MenuItem>LOGIN</MenuItem>
-          </Link>
+          </Link>}
 
           {user !== null ? (
             <Link to="/" style={{ textDecoration: "none" }}>
@@ -116,11 +115,11 @@ const Navbar = () => {
           )}
 
           <Link to="/carts" style={{ textDecoration: "none" }}>
-            <MenuItem>
+            {(user!==null) && <MenuItem>
               <Badge badgeContent={quantity} color="primary">
                 <Cart style={{ fontSize: 30 }} />
               </Badge>
-            </MenuItem>
+            </MenuItem>}
           </Link>
         </Right>
       </Wrapper>

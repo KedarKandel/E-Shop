@@ -34,7 +34,6 @@ const TopButton = styled.button`
   border-radius: 3px;
   font-size: 20px;
   margin-top: 15px;
-
 `;
 const CenterText = styled.span`
   text-decoration: underline;
@@ -152,6 +151,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const bag = useSelector((state) => state.cart.quantity);
   const [stripeToken, setStripeToken] = useState(null);
+
   const navigate = useNavigate();
 
   const onToken = (token) => {
@@ -214,7 +214,7 @@ const Cart = () => {
                   <ProductAmountContainer>
                     <AddIcon />
                     <ProductAmount>{p.quantity}</ProductAmount>
-                    <RemoveIcon />
+                    <RemoveIcon  />
                   </ProductAmountContainer>
                   <ProductPrice>€ {p.price * p.quantity}</ProductPrice>
                 </PriceDetail>

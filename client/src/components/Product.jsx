@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import AddShoppingCart from "@mui/icons-material/AddShoppingCartOutlined";
+
 import { Link } from "react-router-dom";
 
 const Info = styled.div`
@@ -51,23 +51,24 @@ const Icon = styled.div`
   margin: 15px;
   cursor: pointer;
 `;
+
+const Price = styled.h5`
+  color: red;
+`;
 const Product = ({ item }) => {
   return (
     <Container>
       <Image src={item.img} />
+
       <Info>
         <Icon>
-          <Link to="/carts">
-            <AddShoppingCart style={{ fontSize: "30px", color: "red" }} />
-          </Link>
+          <Price>€{item.price}</Price>
         </Icon>
-
         <Icon>
           <Link to={`/product/${item._id}`}>
             <SearchOutlinedIcon style={{ fontSize: "30px", color: "red" }} />
           </Link>
         </Icon>
-
         <Icon>
           <FavoriteBorderOutlinedIcon
             style={{ fontSize: "30px", color: "red" }}

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { login } from "../redux/apiCalls";
 import { useState } from "react";
 
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -63,6 +64,7 @@ margin-top: 2px;
 `
 const Error = styled.span`
 color: red;
+margin-left: 3px;
 `
 
 const Login = () => {
@@ -71,7 +73,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     login(dispatch, { username, password });
   };
@@ -89,8 +91,9 @@ const Login = () => {
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           ></Input>
+           {error && <Error>Wrong credentials...</Error>}
           <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
-          {error && <Error>Something went wrong...</Error>}
+         
           <Links>DON'T REMEMBER YOUR PASSWORD ?</Links>
           <Link to="/register">
             <Links>CREATE A NEW ACCOUNT</Links>
