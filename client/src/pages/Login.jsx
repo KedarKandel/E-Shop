@@ -47,12 +47,23 @@ const Button = styled.button`
   border: none;
   margin: 15px 0;
   cursor: pointer;
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 const Links = styled.a`
   margin: 5px;
   cursor: pointer;
   text-decoration: underline;
 `;
+const GoHome = styled.a`
+margin-left: 4px;
+margin-top: 2px;
+`
+const Error = styled.span`
+color: red;
+`
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -78,11 +89,13 @@ const Login = () => {
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           ></Input>
-          <Button onClick={handleLogin}>LOGIN</Button>
+          <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
+          {error && <Error>Something went wrong...</Error>}
           <Links>DON'T REMEMBER YOUR PASSWORD ?</Links>
           <Link to="/register">
             <Links>CREATE A NEW ACCOUNT</Links>
           </Link>
+          <GoHome href="/">Home</GoHome>
         </Form>
       </Wrapper>
     </Container>

@@ -7,6 +7,8 @@ import { Desktops, laptops, mobiles, tablets } from "../responsive";
 import { Link } from "react-router-dom";
 
 
+
+
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -117,7 +119,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{i.title}</Title>
               <Desc>{i.desc}</Desc>
-              <Link to="/" >
+              <Link to="/login" >
                 <Button>SHOW NOW</Button>
               </Link>
             </InfoContainer>

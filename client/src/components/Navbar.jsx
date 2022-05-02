@@ -3,10 +3,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDown from "@mui/icons-material/ArrowDropDown";
 import Cart from "@mui/icons-material/AddShoppingCartOutlined";
 import { Badge } from "@mui/material";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 import { mobiles, tablets } from "../responsive";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/userSlice";
+import { removeProduct } from "../redux/cartSlice";
 
 const Container = styled.div`
   height: 60px;
@@ -51,7 +52,7 @@ const Center = styled.div`
 `;
 
 const Logo = styled.h1`
-  color: #05595B;
+  color: #05595b;
   font-weight: bold;
   font-size: 40px;
   cursor: pointer;
@@ -74,6 +75,14 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const user = useSelector((state) => state.user.currentUser);
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    dispatch(logout());
+    dispatch(removeProduct());
+  };
 
   return (
     <Container>
@@ -95,9 +104,17 @@ const Navbar = () => {
           <Link to="/login" style={{ textDecoration: "none" }}>
             <MenuItem>LOGIN</MenuItem>
           </Link>
-          <Link to="/register" style={{ textDecoration: "none" }}>
-            <MenuItem>REGISTER</MenuItem>
-          </Link>
+
+          {user !== null ? (
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <MenuItem onClick={handleLogout}>LOGOUT</MenuItem>
+            </Link>
+          ) : (
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              <MenuItem>REGISTER</MenuItem>
+            </Link>
+          )}
+
           <Link to="/carts" style={{ textDecoration: "none" }}>
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

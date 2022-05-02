@@ -7,11 +7,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 
 function App() {
-  const user = false;
+  const user = useSelector((state) => state.user.currentUser);
+ 
   return (
     <BrowserRouter>
       <Container>
