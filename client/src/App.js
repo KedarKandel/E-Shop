@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 const Container = styled.div``;
 
 function App() {
+ 
   const user = useSelector((state) => state.user.currentUser);
  
   return (
