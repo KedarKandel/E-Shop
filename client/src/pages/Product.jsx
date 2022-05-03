@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 const Container = styled.div``;
 
@@ -185,6 +187,7 @@ const Product = () => {
   };
 
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <Container>
       <Navbar />
       <Announcement />
@@ -229,6 +232,7 @@ const Product = () => {
       <Newsletter />
       <Footer />
     </Container>
+    </motion.div>
   );
 };
 

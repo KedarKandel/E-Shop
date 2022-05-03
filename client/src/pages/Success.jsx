@@ -1,10 +1,13 @@
 import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 const Success = () => {
 
   const location = useLocation()
   console.log(location)
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <div
       style={{
         display: "flex",
@@ -13,8 +16,10 @@ const Success = () => {
         backgroundColor: "skyBlue",
         height: "100vh",
         width: "100vw",
+        position: "relative"
       }}
     >
+      <a href= "/" style={{position:"absolute", top:"10px", left:"10px"}}>Home</a>
       <div
         style={{
           display: "flex",
@@ -30,6 +35,7 @@ const Success = () => {
         Payment is successful
       </div>
     </div>
+    </motion.div>
   );
 };
 

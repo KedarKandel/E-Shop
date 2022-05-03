@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../redux/apiCalls";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 
 const Container = styled.div`
@@ -70,31 +72,36 @@ margin-left: 3px;
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const { isFetching, error} = useSelector((state) => state.user);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     login(dispatch, { username, password });
-  
   };
 
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
           <Input
             placeholder="Username"
+            type="text"
+            required
             onChange={(e) => setUsername(e.target.value)}
           ></Input>
           <Input
             placeholder="Password"
+            type="text"
+            required
             onChange={(e) => setPassword(e.target.value)}
           ></Input>
-           {error && <Error>Wrong credentials...</Error>}
+           
           <Button onClick={handleLogin} disabled={isFetching}>LOGIN</Button>
-         
+          {error && <Error>Wrong credentials...</Error>}
           <Links>DON'T REMEMBER YOUR PASSWORD ?</Links>
           <Link to="/register">
             <Links>CREATE A NEW ACCOUNT</Links>
@@ -103,6 +110,7 @@ const Login = () => {
         </Form>
       </Wrapper>
     </Container>
+    </motion.div>
   );
 };
 

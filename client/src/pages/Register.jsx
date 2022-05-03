@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { publicRequest } from "../requestMethods";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 const Container = styled.div`
   background: url(https://t4.ftcdn.net/jpg/03/55/12/37/360_F_355123783_WjUgN86awgqdCdPKkfPDgZFJTN5qvtaI.jpg)
@@ -84,6 +86,7 @@ const Register = () => {
   };
 
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
@@ -106,6 +109,7 @@ const Register = () => {
         <Link to ="/" style={{marginLeft:"10px"}}>Home</Link>
       </Wrapper>
     </Container>
+    </motion.div>
   );
 };
 

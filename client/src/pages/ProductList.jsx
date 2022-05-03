@@ -7,6 +7,8 @@ import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import { mobiles } from "../responsive";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 const Container = styled.div``;
 const Title = styled.h2`
@@ -62,6 +64,7 @@ const ProductList = () => {
   };
 
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <Container>
       <Navbar />
       <Announcement />
@@ -106,6 +109,7 @@ const ProductList = () => {
       <Newsletter />
       <Footer />
     </Container>
+    </motion.div>
   );
 };
 

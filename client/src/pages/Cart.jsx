@@ -9,6 +9,8 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userRequest } from "../requestMethods";
+import { motion } from "framer-motion";
+import { animationOne, transition } from "../animations/index";
 
 const KEY =
   "pk_test_51KsQrJFHfUoI2gtlNH3skfJNdpwOKzWeXBcaBQIwhralOW78abZpakYHIoumHaH0McfoVbYkDcRcqPYuPqreoJSL007FELOHsT";
@@ -175,6 +177,7 @@ const Cart = () => {
   }, [stripeToken, cart, navigate]);
 
   return (
+    <motion.div initial="out" animate="in" exit="out" variants={animationOne} transition={transition}>
     <Container>
       <Navbar />
       <Announcement />
@@ -257,6 +260,7 @@ const Cart = () => {
       </Wrapper>
       <Footer />
     </Container>
+    </motion.div>
   );
 };
 
