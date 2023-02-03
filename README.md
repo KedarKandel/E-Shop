@@ -32,7 +32,7 @@ Licensing
   No such.
 
 Credits
-Your Name - Kedar Kandel
+- Kedar Kandel
 
 Support
 If you need help or have any questions, please create an issue on the repository's GitHub page.
