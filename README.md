@@ -14,11 +14,12 @@ The application allows users to create an account and login onto the application
 Installation
 Clone the repository to your local machine.
 
-cd Backend:
+- cd Backend:
 Run:  `npm install` to install dependencies for backend.
-
 Run npm start to start the backend server.
-cd Frontend: `npm install` to install dependencies for frontend.
+
+
+- cd Frontend: `npm install` to install dependencies for frontend.
 
 Navigate to http://localhost:3000 to view the application in your browser.
 
