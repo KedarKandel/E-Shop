@@ -14,19 +14,20 @@ The application allows users to create an account and login onto the application
 Installation
 Clone the repository to your local machine.
 
-Run npm install in the root directory to install the dependencies.
+cd Backend:
+Run:  `npm install` to install dependencies for backend.
 
-Run npm start to start the application.
+Run npm start to start the backend server.
+cd Frontend: `npm install` to install dependencies for frontend.
 
 Navigate to http://localhost:3000 to view the application in your browser.
+
+
 Usage
-Register a new account or sign in if you already have one.
+- Register a new account or sign in if you already have one.
+- visitor can explore the products, filter and sort based on size date and price
 
 
-
-Fork the repository.
-Create a new branch with a descriptive name.
-Make your changes and submit a pull request.
 
 
 Licensing
@@ -34,9 +35,4 @@ Licensing
 
 Credits
 - Kedar Kandel
-
-Support
-If you need help or have any questions, please create an issue on the repository's GitHub page.
-
-Contact Information
 kandelkedar07@gmail.com
