@@ -22,6 +22,7 @@ Run npm start to start the backend server.
 
 
 - cd Frontend: `npm install` to install dependencies for frontend.
+- Run npm start to start the frontend server.
 
 Navigate to http://localhost:3000 to view the application in your browser.
 
